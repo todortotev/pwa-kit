@@ -7,22 +7,44 @@ import {FormattedMessage, useIntl} from 'react-intl'
 import {
     Alert,
     Box,
-    Button,
     Container,
     Heading,
     SimpleGrid,
+    Skeleton as ChakraSkeleton,
     Stack,
     Text,
     useToast
 } from '@chakra-ui/react'
 import {useForm} from 'react-hook-form'
 import useCustomer from '../../commerce-api/hooks/useCustomer'
-import link from '../../components/link'
 import {AlertIcon} from '../../components/icons'
 import {ToggleCard, ToggleCardEdit, ToggleCardSummary} from '../../components/toggle-card'
 import ProfileFields from '../../components/forms/profile-fields'
 import UpdatePasswordFields from '../../components/forms/update-password-fields'
 import FormActionButtons from '../../components/forms/form-action-buttons'
+
+/**
+ * This is a specialized Skeleton component that which uses the customers authtype as the
+ * `isLoaded` state. It also will revert it's provided size (height, width) when the loaded
+ * state changes. This allows you to have skeletons of a specific size, but onece loaded
+ * the bounding element will affect the contents size.
+ */
+// eslint-disable-next-line react/prop-types
+const Skeleton = ({children, height, width, ...rest}) => {
+    const {isRegistered} = useCustomer()
+    const size = !isRegistered
+        ? {
+              height,
+              width
+          }
+        : {}
+
+    return (
+        <ChakraSkeleton isLoaded={isRegistered} {...rest} {...size}>
+            {children}
+        </ChakraSkeleton>
+    )
+}
 
 const ProfileCard = () => {
     const {formatMessage} = useIntl()
@@ -63,13 +85,19 @@ const ProfileCard = () => {
         }
     }
 
+    const {isRegistered} = customer
+
     return (
         <ToggleCard
             id="my-profile"
-            title={formatMessage({defaultMessage: 'My Profile'})}
+            title={
+                <Skeleton height="30px" width="120px">
+                    {formatMessage({defaultMessage: 'My Profile'})}
+                </Skeleton>
+            }
             editing={isEditing}
             isLoading={form.formState.isSubmitting}
-            onEdit={() => setIsEditing(true)}
+            onEdit={isRegistered ? () => setIsEditing(true) : undefined}
             layerStyle="cardBordered"
         >
             <ToggleCardEdit>
@@ -93,28 +121,43 @@ const ProfileCard = () => {
             <ToggleCardSummary>
                 <SimpleGrid columns={{base: 1, lg: 3}} spacing={4}>
                     <Box>
-                        <Text fontSize="sm" fontWeight="bold">
-                            <FormattedMessage defaultMessage="Full Name" />
-                        </Text>
-                        <Text fontSize="sm">
-                            {customer.firstName} {customer.lastName}
-                        </Text>
+                        <Skeleton height="21px" width="84px" marginBottom={2}>
+                            <Text fontSize="sm" fontWeight="bold">
+                                <FormattedMessage defaultMessage="Full Name" />
+                            </Text>
+                        </Skeleton>
+
+                        <Skeleton height="21px" width="140px">
+                            <Text fontSize="sm">
+                                {customer.firstName} {customer.lastName}
+                            </Text>
+                        </Skeleton>
                     </Box>
                     <Box>
-                        <Text fontSize="sm" fontWeight="bold">
-                            <FormattedMessage defaultMessage="Email" />
-                        </Text>
-                        <Text fontSize="sm">{customer.email}</Text>
+                        <Skeleton height="21px" width="120px" marginBottom={2}>
+                            <Text fontSize="sm" fontWeight="bold">
+                                <FormattedMessage defaultMessage="Email" />
+                            </Text>
+                        </Skeleton>
+
+                        <Skeleton height="21px" width="64px">
+                            <Text fontSize="sm">{customer.email}</Text>
+                        </Skeleton>
                     </Box>
                     <Box>
-                        <Text fontSize="sm" fontWeight="bold">
-                            <FormattedMessage defaultMessage="Phone Number" />
-                        </Text>
-                        <Text fontSize="sm">
-                            {customer.phoneHome || (
-                                <FormattedMessage defaultMessage="Not provided" />
-                            )}
-                        </Text>
+                        <Skeleton height="21px" width="80px" marginBottom={2}>
+                            <Text fontSize="sm" fontWeight="bold">
+                                <FormattedMessage defaultMessage="Phone Number" />
+                            </Text>
+                        </Skeleton>
+
+                        <Skeleton height="21px" width="120px">
+                            <Text fontSize="sm">
+                                {customer.phoneHome || (
+                                    <FormattedMessage defaultMessage="Not provided" />
+                                )}
+                            </Text>
+                        </Skeleton>
                     </Box>
                 </SimpleGrid>
             </ToggleCardSummary>
@@ -145,13 +188,19 @@ const PasswordCard = () => {
         }
     }
 
+    const {isRegistered} = customer
+
     return (
         <ToggleCard
             id="password"
-            title={formatMessage({defaultMessage: 'Password'})}
+            title={
+                <Skeleton height="30px" width="120px">
+                    {formatMessage({defaultMessage: 'Password'})}
+                </Skeleton>
+            }
             editing={isEditing}
             isLoading={form.formState.isSubmitting}
-            onEdit={() => setIsEditing(true)}
+            onEdit={isRegistered ? () => setIsEditing(true) : undefined}
             layerStyle="cardBordered"
         >
             <ToggleCardEdit>
@@ -175,10 +224,17 @@ const PasswordCard = () => {
             <ToggleCardSummary>
                 <SimpleGrid columns={{base: 1, lg: 3}} spacing={4}>
                     <Box>
-                        <Text fontSize="sm" fontWeight="bold">
-                            <FormattedMessage defaultMessage="Password" />
-                        </Text>
-                        <Text fontSize="sm">&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;</Text>
+                        <Skeleton height="21px" width="84px" marginBottom={2}>
+                            <Text fontSize="sm" fontWeight="bold">
+                                <FormattedMessage defaultMessage="Password" />
+                            </Text>
+                        </Skeleton>
+
+                        <Skeleton height="21px" width="140px">
+                            <Text fontSize="sm">
+                                &bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;
+                            </Text>
+                        </Skeleton>
                     </Box>
                 </SimpleGrid>
             </ToggleCardSummary>
@@ -187,8 +243,6 @@ const PasswordCard = () => {
 }
 
 const AccountDetail = () => {
-    const customer = useCustomer()
-
     return (
         <Stack data-testid="account-detail-page" spacing={6}>
             <Heading as="h1" fontSize="24px">
@@ -199,12 +253,6 @@ const AccountDetail = () => {
                 <ProfileCard />
                 <PasswordCard />
             </Stack>
-
-            <Box>
-                <Button as={link} to="/" variant="link" onClick={() => customer.logout()}>
-                    <FormattedMessage defaultMessage="Sign out" />
-                </Button>
-            </Box>
         </Stack>
     )
 }

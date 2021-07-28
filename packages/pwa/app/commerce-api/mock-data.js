@@ -9,7 +9,20 @@ export const exampleTokenReponse = {
     expires_in: 1800,
     token_type: 'BEARER',
     usid: 'f51fd491-eba1-4582-81f9-4a014a472a20',
-    customer_id: 'ablCFpOOxbEjVN5itxrhzIMOaJ',
+    customer_id: 'customerid',
+    enc_user_id: 'ce5f0dd2fc1fdb7f06e8e97011200943'
+}
+
+export const exampleTokenReponseForRefresh = {
+    access_token:
+        'eyJ2ZXIiOiIxLjAiLCJraWQiOiI4ZWM1YWZjOC03MjczLTQxYmYtOWU2MS00MWRkMTAyODU2ZmMiLCJ0eXAiOiJqd3QiLCJjbHYiOiJKMi4xLjAiLCJhbGciOiJFUzI1NiJ9.eyJhdXQiOiJHVUlEIiwic2NwIjoic2ZjYy5zaG9wcGVyLWNhdGVnb3JpZXMgc2ZjYy5zaG9wcGVyLWN1c3RvbWVycy5yZWdpc3RlciBzZmNjLnNob3BwZXItY3VzdG9tZXJzLmxvZ2luIHNmY2Muc2hvcHBlci1teWFjY291bnQgc2ZjYy5zaG9wcGVyLW15YWNjb3VudC5ydyBzZmNjLnNob3BwZXItbXlhY2NvdW50LmFkZHJlc3Nlcy5ydyBzZmNjLnNob3BwZXItbXlhY2NvdW50LmFkZHJlc3NlcyBzZmNjLnNob3BwZXItbXlhY2NvdW50LmJhc2tldHMgc2ZjYy5zaG9wcGVyLW15YWNjb3VudC5vcmRlcnMgc2ZjYy5zaG9wcGVyLW15YWNjb3VudC5wYXltZW50aW5zdHJ1bWVudHMucncgc2ZjYy5zaG9wcGVyLW15YWNjb3VudC5wYXltZW50aW5zdHJ1bWVudHMgc2ZjYy5zaG9wcGVyLW15YWNjb3VudC5wcm9kdWN0bGlzdHMgc2ZjYy5zaG9wcGVyLW15YWNjb3VudC5wcm9kdWN0bGlzdHMucncgc2ZjYy5zaG9wcGVyLXByb2R1Y3RsaXN0cyBzZmNjLnNob3BwZXItcHJvbW90aW9ucyBzZmNjLnNob3BwZXItZ2lmdC1jZXJ0aWZpY2F0ZXMgc2ZjYy5zaG9wcGVyLXByb2R1Y3Qtc2VhcmNoIHNmY2Muc2hvcHBlci1iYXNrZXRzLW9yZGVycy5ydyBzZmNjLnNob3BwZXItYmFza2V0cy1vcmRlcnMgc2ZjYy5zaG9wcGVyLXByb2R1Y3RzIiwic3ViIjoiY2Mtc2xhczo6enpyZl8wMDE6OnNjaWQ6YzljNDViZmQtMGVkMy00YWEyLTk5NzEtNDBmODg5NjJiODM2Ojp1c2lkOmY1MWZkNDkxLWViYTEtNDU4Mi04MWY5LTRhMDE0YTQ3MmEyMCIsImN0eCI6InNsYXMiLCJpc3MiOiJzbGFzL3Byb2QvenpyZl8wMDEiLCJpc3QiOjEsImF1ZCI6ImNvbW1lcmNlY2xvdWQvcHJvZC96enJmXzAwMSIsIm5iZiI6MTYxNTU2NTY2NCwic3R5IjoiVXNlciIsImlzYiI6InVpZG86ZWNvbTo6dXBuOnJlZnRlc3RANjRsYWJzLmNvbTo6dWlkbjpEYXJlayBSb3NzbWFuIiwiZXhwIjoxNjE1NTY3NDk0LCJpYXQiOjE2MTU1NjU2OTQsImp0aSI6IkMyQzQ4NTYyMDE4NjAtMTg5MDY3ODkwMzY1MzAyMTAyODM3OTUyOCJ9.a6hXCRArmoqZOnoiUW9Ed9id2hY_Q2ZsKL2MMpJuiv65aIlFmi1S5gAXHLNFnL-OSd8oRyOIb-W9YnsCb2IJGK',
+    id_token:
+        'eyJraWQiOiI3MTUxNmI0My1lNzBkLTQ5NDktYjhmNy00NTdkM2JmMjY2ZjMiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJjYy1zbGFzOjp6enJmXzAwMTo6c2NpZDpjOWM0NWJmZC0wZWQzLTRhYTItOTk3MS00MGY4ODk2MmI4MzY6OnVzaWQ6ZjUxZmQ0OTEtZWJhMS00NTgyLTgxZjktNGEwMTRhNDcyYTIwIiwiYXVkIjoiYzljNDViZmQtMGVkMy00YWEyLTk5NzEtNDBmODg5NjJiODM2IiwiaXNzIjoicHJkLnVzLnNob3BwZXIuY2Muc2FsZXNmb3JjZS5jb20iLCJuYW1lIjoiZWNvbSIsImV4cCI6MTYxNTU2NzQ5NCwiaWF0IjoxNjE1NTY1Njk0LCJlbWFpbCI6ImVjb20ifQ.KgaXzEH1pisXLigTvBB_U9Xw0aQeowJiawQzCewZlQDrh7P0iOthfVnTHBMwvntJow0uSh3_78HFBlhNWsqy2szCHjR7dLtjN0oqb9izDhOjyslR2bAvfM24cR-Uor40oNx1h2d7oELOmFsn0Dr8sgl6gQIQolGfdnCHSBLTDeD12vzgBAzjYO8nBZ8r8HOO6yqOCHpyD6aqzmzYpBLluyXU1Ul04qlCNKm9_Dn7HFlKWkZyujlyPQdLz_ql7QnuKGpW_dZzqBfeO5LJBvbybw2AW07bVBFTnn5LisMnMxNVoCiLnUAzxtZMthQY1OZLzhZwITmuSBstaHZF8mACBQ',
+    refresh_token: 'bvMQkZbDnYYaheqDq3x6JhOlhUhHSUzh1f9geEadTQw',
+    expires_in: 1800,
+    token_type: 'BEARER',
+    usid: 'f51fd491-eba1-4582-81f9-4a014a472a20',
+    customer_id: 'customerid',
     enc_user_id: 'ce5f0dd2fc1fdb7f06e8e97011200943'
 }
 export const exampleRedirectUrl =
@@ -109,7 +122,7 @@ export const ocapiBasketWithItem = {
     channel_type: 'storefront',
     creation_date: '2021-04-08T19:54:00.772Z',
     currency: 'USD',
-    customer_info: {_type: 'customer_info', customer_id: 'ablCFpOOxbEjVN5itxrhzIMOaJ', email: ''},
+    customer_info: {_type: 'customer_info', customer_id: 'customerid', email: ''},
     last_modified: '2021-04-08T19:54:02.996Z',
     merchandize_total_tax: 0.75,
     notes: {
@@ -243,7 +256,7 @@ export const ocapiBasketWithPaymentInstrumentAndBillingAddress = {
     channel_type: 'storefront',
     creation_date: '2021-04-08T19:54:00.772Z',
     currency: 'USD',
-    customer_info: {_type: 'customer_info', customer_id: 'ceYG89c07x66eryK5BbAawty4a', email: ''},
+    customer_info: {_type: 'customer_info', customer_id: 'customerid', email: ''},
     last_modified: '2021-04-08T19:54:02.996Z',
     merchandize_total_tax: 0.75,
     notes: {
@@ -366,7 +379,7 @@ export const ocapiBasketWithPaymentInstrumentAndBillingAddress = {
     tax_total: null
 }
 
-export const shippingMethodsResponse = {
+export const mockShippingMethods = {
     _v: '21.3',
     _type: 'shipping_method_result',
     applicable_shipping_methods: [
@@ -415,7 +428,7 @@ export const ocapiOrderResponse = {
     creation_date: '2014-11-06T13:36Z',
     currency: 'USD',
     customer_info: {
-        customer_id: 'guestCustomerId',
+        customer_id: 'customerid',
         customer_no: 'jlebowski',
         email: 'jeff@lebowski.com'
     },
@@ -571,6 +584,76 @@ export const mockPaymentMethods = {
     ]
 }
 
+export const mockedRegisteredCustomerWithTwoAddresses = {
+    addresses: [
+        {
+            address1: '123 Main St',
+            addressId: 'savedaddress1',
+            city: 'Tampa',
+            countryCode: 'US',
+            creationDate: '2021-04-07T12:08:03.000Z',
+            firstName: 'Test',
+            fullName: 'Test McTester',
+            lastModified: '2021-04-07T12:08:03.000Z',
+            lastName: 'McTester',
+            phone: '(727) 555-1234',
+            postalCode: '33712',
+            preferred: true,
+            stateCode: 'FL'
+        },
+        {
+            address1: '123 Main St',
+            addressId: 'savedaddress2',
+            city: 'Tampa',
+            countryCode: 'US',
+            creationDate: '2021-04-07T12:08:03.000Z',
+            firstName: 'Test2',
+            fullName: 'Test2 McTester',
+            lastModified: '2021-04-07T12:08:03.000Z',
+            lastName: 'McTester',
+            phone: '(727) 555-1234',
+            postalCode: '33712',
+            preferred: true,
+            stateCode: 'FL'
+        }
+    ],
+    authType: 'registered',
+    creationDate: '2021-03-31T13:32:42.000Z',
+    customerId: 'customerid',
+    customerNo: '00149004',
+    email: 'customer@test.com',
+    enabled: true,
+    lastLoginTime: '2021-04-14T13:38:29.778Z',
+    lastModified: '2021-04-14T13:38:29.778Z',
+    firstName: 'Testing',
+    lastName: 'Tester',
+    phoneHome: '(727) 555-1234',
+    lastVisitTime: '2021-04-14T13:38:29.778Z',
+    login: 'customer@test.com',
+    paymentInstruments: [
+        {
+            creationDate: '2021-04-01T14:34:56.000Z',
+            lastModified: '2021-04-01T14:34:56.000Z',
+            paymentBankAccount: {},
+            paymentCard: {
+                cardType: 'Master Card',
+                creditCardExpired: false,
+                expirationMonth: 1,
+                expirationYear: 2022,
+                holder: 'Test McTester',
+                maskedNumber: '************5454',
+                numberLastDigits: '5454',
+                validFromMonth: 1,
+                validFromYear: 2020
+            },
+            paymentInstrumentId: 'testcard1',
+            paymentMethodId: 'CREDIT_CARD'
+        }
+    ],
+    previousLoginTime: '2021-04-14T13:38:29.778Z',
+    previousVisitTime: '2021-04-14T13:38:29.778Z'
+}
+
 export const mockedRegisteredCustomer = {
     addresses: [
         {
@@ -591,7 +674,7 @@ export const mockedRegisteredCustomer = {
     ],
     authType: 'registered',
     creationDate: '2021-03-31T13:32:42.000Z',
-    customerId: 'bcDQ0m19uOL6BtoKVzEbN4DaKx',
+    customerId: 'customerid',
     customerNo: '00149004',
     email: 'customer@test.com',
     enabled: true,
@@ -628,8 +711,8 @@ export const mockedRegisteredCustomer = {
 
 export const mockedGuestCustomer = {
     authType: 'guest',
-    customerId: 'ceL4byx7CScuk6nIqhBa0HgQGC',
-    preferredLocale: 'en_US'
+    customerId: 'customerid',
+    email: ''
 }
 
 export const productsResponse = {
@@ -1221,7 +1304,7 @@ export const mockOrderHistory = {
             creationDate: '2021-04-06T20:15:40.000Z',
             currency: 'USD',
             customerInfo: {
-                customerId: 'bcDQ0m19uOL6BtoKVzEbN4DaKx',
+                customerId: 'customerid',
                 customerName: ' testing',
                 customerNo: '00149004',
                 email: 'tester@test.com'
@@ -1373,7 +1456,7 @@ export const mockOrderHistory = {
             creationDate: '2021-04-06T19:16:15.000Z',
             currency: 'USD',
             customerInfo: {
-                customerId: 'bcDQ0m19uOL6BtoKVzEbN4DaKx',
+                customerId: 'customerid',
                 customerName: ' testing',
                 customerNo: '00149004',
                 email: 'tester@test.com'
@@ -1525,7 +1608,7 @@ export const mockOrderHistory = {
             creationDate: '2021-04-06T19:14:32.000Z',
             currency: 'USD',
             customerInfo: {
-                customerId: 'bcDQ0m19uOL6BtoKVzEbN4DaKx',
+                customerId: 'customerid',
                 customerName: ' testing',
                 customerNo: '00149004',
                 email: 'tester@test.com'

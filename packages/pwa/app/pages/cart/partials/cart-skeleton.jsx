@@ -14,7 +14,7 @@ import {FormattedMessage} from 'react-intl'
 
 const CartItemSkeleton = () => {
     return (
-        <Stack spacing={4} align="flex-start" bg="white" padding={[4, 6]}>
+        <Stack spacing={4} layerStyle="card" boxShadow="none">
             <Flex width="full" bg="white" marginBottom={[4, 3]}>
                 <Skeleton width={['88px', '136px']} height={['88px', '136px']} />
                 <Stack marginLeft={[4, 6]} spacing={2} flex={1}>
@@ -35,7 +35,7 @@ const CartItemSkeleton = () => {
 
 const CartSkeleton = () => {
     return (
-        <Box background="gray.50" paddingBottom={{base: 20, lg: 55}}>
+        <Box background="gray.50" flex="1" paddingBottom={{base: 20, lg: 55}}>
             <Container
                 background="gray.50"
                 data-testid="sf-cart-skeleton"

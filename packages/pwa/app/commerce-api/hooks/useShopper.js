@@ -19,7 +19,7 @@ const useShopper = () => {
     // Handle basket init/updates in response to customer/basket changes.
     useEffect(() => {
         const hasCustomer = customer?.customerId
-        const hasBasket = basket?.basketId
+        const hasBasket = basket?.loaded()
 
         // We have a customer but no basket, so we fetch a new or existing basket
         if (hasCustomer && !hasBasket) {
@@ -33,6 +33,7 @@ const useShopper = () => {
             basket.getOrCreateBasket()
             return
         }
+
         // We have a registered customer (customer with email), and we have their basket,
         // but the email applied to the basket is missing or doesn't match the customer
         // email. In this case, we update the basket with their email.

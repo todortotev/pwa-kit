@@ -1,5 +1,3 @@
-import theme from '@chakra-ui/theme'
-
 export default {
     baseStyle: {
         container: {
@@ -7,10 +5,7 @@ export default {
             minWidth: 'xs',
             width: 'full',
             boxShadow: 'base',
-            backgroundColor: 'white',
-            position: 'sticky',
-            top: 0,
-            zIndex: theme.zIndices.sticky
+            backgroundColor: 'white'
         },
         content: {
             maxWidth: 'container.xxxl',
@@ -36,7 +31,49 @@ export default {
         },
         icons: {
             marginBottom: [1, 1, 2, 0]
+        },
+        accountIcon: {
+            height: 11,
+            cursor: 'pointer',
+            alignSelf: ['self-start', 'self-start', 'self-start', 'auto'],
+            _focus: {
+                boxShadow: 'outline'
+            },
+            _focusVisible: {
+                outline: 0
+            }
+        },
+        arrowDown: {
+            height: 11,
+            marginRight: 0,
+            alignSelf: ['self-start', 'self-start', 'self-start', 'auto'],
+            cursor: 'pointer',
+            _focus: {
+                boxShadow: 'outline'
+            },
+            _focusVisible: {
+                outline: 0
+            },
+            display: ['none', 'none', 'none', 'block']
+        },
+        signout: {
+            width: '100%',
+            borderRadius: '4px',
+            height: 11,
+            padding: 4,
+            py: 3,
+            marginTop: 1,
+            _hover: {
+                background: 'gray.50'
+            }
+        },
+        signoutText: {
+            fontSize: 'sm',
+            fontWeight: 'normal'
+        },
+        signoutIcon: {
+            marginRight: 2
         }
     },
-    parts: ['container', 'content', 'searchContainer', 'bodyContainer', 'logo', 'icons']
+    parts: ['container', 'content', 'searchContainer', 'bodyContainer', 'logo', 'icons', 'signout']
 }
