@@ -1,3 +1,5 @@
+TEST
+
 # Mobify Platform SDKs
 
 This is a _monorepo_ that includes the following packages that make
