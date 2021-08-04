@@ -1,3 +1,5 @@
+HELLO WORLD =========================
+
 <img alt="logo" src="react-retail-app.png" />
 
 # PWA Kit - Retail React App
