@@ -3,6 +3,8 @@ DREW TEST
 
 # Mobify Platform SDKs
 
+This is a long process. for us. 
+
 This is a _monorepo_ that includes the following packages that make
 up the front end of the PWA Kit for Salesforce Commerce Cloud:
 
