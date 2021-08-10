@@ -2,9 +2,8 @@
  * Copyright (c) 2021 Mobify Research & Development Inc. All rights reserved. *
  * * *  *  * *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  *  * */
 
-import React, {Fragment} from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import {isServer} from '../../../utils/utils'
 // Components
 import {Box, Heading, Flex, Text, Fade} from '@chakra-ui/react'
 
@@ -23,12 +22,7 @@ const PageHeader = ({category, productSearchResult, isLoading, searchQuery, ...o
                     {`${category?.name || searchQuery || ''}`}
                 </Heading>
                 <Heading as="h2" size="lg" marginRight={2}>
-                    {isServer ? (
-                        <Fragment>({productSearchResult?.total})</Fragment>
-                    ) : (
-                        // Fade in the total when available. When it's changed or not available yet, do not render it
-                        !isLoading && <Fade in={true}>({productSearchResult?.total})</Fade>
-                    )}
+                    {!isLoading && <Fade in={true}>({productSearchResult?.total})</Fade>}
                 </Heading>
             </Flex>
         </Box>
