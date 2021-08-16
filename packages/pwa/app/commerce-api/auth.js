@@ -1,8 +1,14 @@
 /* eslint-disable no-unused-vars */
 import {getAppOrigin} from 'pwa-kit-react-sdk/dist/utils/url'
 import {HTTPError} from 'pwa-kit-react-sdk/dist/ssr/universal/errors'
-import {createCodeVerifier, generateCodeChallenge} from './pkce'
+import {
+    createCodeVerifier,
+    generateCodeChallenge,
+    createCodeVerifierServer,
+    generateCodeChallengeServer
+} from './pkce'
 import {createGetTokenBody} from './utils'
+import {isServer, noop} from '../utils/utils'
 
 /**
  * An object containing the customer's login credentials.
@@ -116,7 +122,7 @@ class Auth {
         const startLoginFlow = () => {
             let authorizationMethod = this._onClient
                 ? '_loginAsGuestClientSide'
-                : '_loginAsGuestServerSide'
+                : '_loginAsGuestClientSide'
             if (credentials) {
                 authorizationMethod = '_loginWithCredentials'
             } else if (this._authToken && this._refreshToken) {
@@ -188,7 +194,7 @@ class Auth {
      */
     async _loginWithCredentials(credentials) {
         const codeVerifier = createCodeVerifier()
-        const codeChallenge = await generateCodeChallenge(codeVerifier)
+        const codeChallenge = generateCodeChallenge(codeVerifier)
 
         sessionStorage.setItem('codeVerifier', codeVerifier)
 
@@ -258,10 +264,13 @@ class Auth {
      * @returns {object} - a guest customer object
      */
     async _loginAsGuestClientSide() {
-        const codeVerifier = createCodeVerifier()
-        const codeChallenge = await generateCodeChallenge(codeVerifier)
+        const codeVerifier = isServer ? createCodeVerifierServer() : createCodeVerifier()
+        const codeChallenge = isServer
+            ? await generateCodeChallengeServer(codeVerifier)
+            : await generateCodeChallenge(codeVerifier)
 
-        sessionStorage.setItem('codeVerifier', codeVerifier)
+        !isServer ? sessionStorage.setItem('codeVerifier', codeVerifier) : noop()
+
         const options = {
             headers: {
                 Authorization: '',

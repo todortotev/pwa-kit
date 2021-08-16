@@ -32,6 +32,24 @@ const app = createApp({
     protocol: 'http'
 })
 
+export const createCodeVerifierServer = () => randomstring.generate(128)
+
+export const generateCodeChallengeServer = async (codeVerifier) => {
+    const base64Digest = crypto
+        .createHash('sha256')
+        .update(codeVerifier)
+        .digest('base64')
+
+    return base64url.fromBase64(base64Digest)
+let codeVerifier
+function myMiddleware(req, res, next) {
+    req.headers
+
+    // keep executing the router middleware
+    next()
+}
+
+app.use(myMiddleware)
 app.get('/robots.txt', serveStaticFile('static/robots.txt'))
 app.get('/*', render)
 

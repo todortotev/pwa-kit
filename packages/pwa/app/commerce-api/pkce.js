@@ -1,6 +1,11 @@
 import {nanoid} from 'nanoid'
 import {encode as base64encode} from 'base64-arraybuffer'
 
+// Server Side
+const crypto = require('crypto')
+const base64url = require('base64url')
+const randomstring = require('randomstring')
+
 // Creates Code Verifier
 export const createCodeVerifier = () => nanoid(128)
 
@@ -15,4 +20,15 @@ export const generateCodeChallenge = async (codeVerifier) => {
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=/g, '')
+}
+
+export const createCodeVerifierServer = () => randomstring.generate(128)
+
+export const generateCodeChallengeServer = async (codeVerifier) => {
+    const base64Digest = crypto
+        .createHash('sha256')
+        .update(codeVerifier)
+        .digest('base64')
+
+    return base64url.fromBase64(base64Digest)
 }

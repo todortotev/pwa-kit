@@ -146,6 +146,10 @@ const common = {
             'react-dom': resolve(nodeModules, 'react-dom'),
             'react-helmet': resolve(nodeModules, 'react-helmet'),
             bluebird: resolve(nodeModules, 'bluebird')
+        },
+        fallback: {
+            crypto: require.resolve('crypto-browserify'),
+            stream: require.resolve('stream-browserify')
         }
     },
 
