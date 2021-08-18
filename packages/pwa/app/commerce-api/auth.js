@@ -82,7 +82,6 @@ class Auth {
     async getLoggedInToken(requestDetails) {
         const data = new URLSearchParams()
         const {grantType, code, usid, codeVerifier, redirectUri} = requestDetails
-        console.log(requestDetails)
         data.append('code', code)
         data.append('grant_type', grantType)
         data.append('usid', usid)
