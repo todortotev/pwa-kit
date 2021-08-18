@@ -8,7 +8,6 @@ import {
     generateCodeChallengeServer
 } from './pkce'
 import {createGetTokenBody} from './utils'
-import {isServer, noop} from '../utils/utils'
 
 /**
  * An object containing the customer's login credentials.
@@ -83,6 +82,7 @@ class Auth {
     async getLoggedInToken(requestDetails) {
         const data = new URLSearchParams()
         const {grantType, code, usid, codeVerifier, redirectUri} = requestDetails
+        console.log(requestDetails)
         data.append('code', code)
         data.append('grant_type', grantType)
         data.append('usid', usid)
@@ -184,7 +184,9 @@ class Auth {
             this._saveEncUserId(enc_user_id)
         }
 
-        sessionStorage.removeItem('codeVerifier')
+        if (this._onClient) {
+            sessionStorage.removeItem('codeVerifier')
+        }
     }
 
     /**
@@ -194,7 +196,7 @@ class Auth {
      */
     async _loginWithCredentials(credentials) {
         const codeVerifier = createCodeVerifier()
-        const codeChallenge = generateCodeChallenge(codeVerifier)
+        const codeChallenge = await generateCodeChallenge(codeVerifier)
 
         sessionStorage.setItem('codeVerifier', codeVerifier)
 
@@ -264,12 +266,14 @@ class Auth {
      * @returns {object} - a guest customer object
      */
     async _loginAsGuestClientSide() {
-        const codeVerifier = isServer ? createCodeVerifierServer() : createCodeVerifier()
-        const codeChallenge = isServer
-            ? await generateCodeChallengeServer(codeVerifier)
-            : await generateCodeChallenge(codeVerifier)
+        const codeVerifier = this._onClient ? createCodeVerifier() : createCodeVerifierServer()
+        const codeChallenge = this._onClient
+            ? await generateCodeChallenge(codeVerifier)
+            : await generateCodeChallengeServer(codeVerifier)
 
-        !isServer ? sessionStorage.setItem('codeVerifier', codeVerifier) : noop()
+        if (this._onClient) {
+            sessionStorage.setItem('codeVerifier', codeVerifier)
+        }
 
         const options = {
             headers: {
@@ -286,6 +290,7 @@ class Auth {
         }
 
         const response = await this._api.shopperLogin.authorizeCustomer(options, true)
+
         if (response.status >= 400) {
             const json = await response.json()
             throw new HTTPError(response.status, json.message)
@@ -294,7 +299,7 @@ class Auth {
         const tokenBody = createGetTokenBody(
             response.url,
             `${getAppOrigin()}${slasCallbackEndpoint}`,
-            window.sessionStorage.getItem('codeVerifier')
+            this._onClient ? window.sessionStorage.getItem('codeVerifier') : codeVerifier
         )
 
         const {customer_id} = await this.getLoggedInToken(tokenBody)

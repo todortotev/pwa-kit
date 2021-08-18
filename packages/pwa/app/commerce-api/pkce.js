@@ -3,7 +3,6 @@ import {encode as base64encode} from 'base64-arraybuffer'
 
 // Server Side
 const crypto = require('crypto')
-const base64url = require('base64url')
 const randomstring = require('randomstring')
 
 // Creates Code Verifier
@@ -22,7 +21,9 @@ export const generateCodeChallenge = async (codeVerifier) => {
         .replace(/=/g, '')
 }
 
-export const createCodeVerifierServer = () => randomstring.generate(128)
+export const createCodeVerifierServer = () => {
+    return randomstring.generate(128)
+}
 
 export const generateCodeChallengeServer = async (codeVerifier) => {
     const base64Digest = crypto
@@ -30,5 +31,8 @@ export const generateCodeChallengeServer = async (codeVerifier) => {
         .update(codeVerifier)
         .digest('base64')
 
-    return base64url.fromBase64(base64Digest)
+    return base64Digest
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=/g, '')
 }

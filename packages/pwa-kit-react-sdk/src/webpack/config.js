@@ -145,7 +145,8 @@ const common = {
             'react-router-dom': resolve(nodeModules, 'react-router-dom'),
             'react-dom': resolve(nodeModules, 'react-dom'),
             'react-helmet': resolve(nodeModules, 'react-helmet'),
-            bluebird: resolve(nodeModules, 'bluebird')
+            bluebird: resolve(nodeModules, 'bluebird'),
+            process: 'process/browser'
         },
         fallback: {
             crypto: require.resolve('crypto-browserify'),
@@ -154,6 +155,9 @@ const common = {
     },
 
     plugins: [
+        new webpack.ProvidePlugin({
+            process: 'process/browser'
+        }),
         new webpack.DefinePlugin(defines),
 
         new WebpackNotifierPlugin({
