@@ -28,6 +28,7 @@ const refreshTokenStorageKey = 'refresh-token'
 const slasCallbackEndpoint = '/callback'
 class Auth {
     constructor(api) {
+        console.log('TEST')
         this._api = api
         this._config = api._config
         this._onClient = typeof window !== 'undefined'
