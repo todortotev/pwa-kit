@@ -38,8 +38,10 @@ export const useSearchParams = (searchParams = DEFAULT_SEARCH_PARAMS) => {
  * @param {Object} searchParamsObj
  * @returns
  */
-export const stringify = (searchParamsObj) => {
+export const stringify = (searchParamsObj, includePath = false) => {
+    let searchParamsStr
     let searchParamsObjCopy = {...searchParamsObj}
+    const {pathname} = useLocation()
 
     // "stringify" the nested refinements
     searchParamsObjCopy.refine = Object.keys(searchParamsObjCopy.refine).map((key) =>
@@ -54,8 +56,9 @@ export const stringify = (searchParamsObj) => {
     )
 
     // "stringify" the entire object
-    searchParamsObjCopy = queryString.stringify(searchParamsObjCopy)
-    return searchParamsObjCopy
+    searchParamsStr = `${includePath ? pathname : ''}?${queryString.stringify(searchParamsObjCopy)}`
+
+    return searchParamsStr
 }
 
 /**

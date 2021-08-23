@@ -42,8 +42,8 @@ import {
 import Pagination from '../../components/pagination'
 import ProductTile, {Skeleton as ProductTileSkeleton} from '../../components/product-tile'
 import {HideOnDesktop} from '../../components/responsive'
-import Refinements from './partials/refinements'
-import SelectedRefinements from './partials/selected-refinements'
+import Refinements from './partials/refinements-new'
+import SelectedRefinements from './partials/selected-refinements-new'
 import EmptySearchResults from './partials/empty-results'
 import PageHeader from './partials/page-header'
 
@@ -102,9 +102,10 @@ const ProductList = (props) => {
 
     // Reset scroll position when `isLoaded` becomes `true`.
     useEffect(() => {
-        isLoading && window.scrollTo(0, 0)
-        setFiltersLoading(isLoading)
-    }, [isLoading])
+        // TODO: Fix issue of scrolling to the top when we don't want to due to the default
+        // search parameters being stringified.
+        window.scrollTo(0, 0)
+    }, [searchParams.limit, searchParams.offset])
 
     // Get urls to be used for pagination, page size changes, and sorting.
     const pageUrls = usePageUrls({total})
@@ -200,9 +201,8 @@ const ProductList = (props) => {
 
                         <Box flex={1} paddingTop={'45px'}>
                             <SelectedRefinements
-                                filters={productSearchResult?.refinements}
-                                toggleFilter={toggleFilter}
-                                selectedFilterValues={productSearchResult?.selectedRefinements}
+                                refinements={productSearchResult?.refinements}
+                                selectedRefinements={searchParams.refine}
                                 categoryId={category?.id}
                             />
                         </Box>
@@ -281,10 +281,8 @@ const ProductList = (props) => {
                     <Grid templateColumns={{base: '1fr', md: '280px 1fr'}} columnGap={6}>
                         <Stack display={{base: 'none', md: 'flex'}}>
                             <Refinements
-                                isLoading={filtersLoading}
-                                toggleFilter={toggleFilter}
-                                filters={productSearchResult?.refinements}
-                                selectedFilters={searchParams.refine}
+                                refinements={productSearchResult?.refinements}
+                                selectedRefinements={searchParams.refine}
                             />
                         </Stack>
                         <Box>

@@ -19,16 +19,21 @@ const SwatchGroup = (props) => {
     const styles = useStyleConfig('SwatchGroup')
     return (
         <Flex {...styles.swatchGroup} role="radiogroup">
-            <HStack {...styles.swatchLabel}>
-                <Box fontWeight="semibold">{`${label}:`}</Box>
-                <Box>{displayName}</Box>
-            </HStack>
+            {label && (
+                <HStack {...styles.swatchLabel}>
+                    <Box fontWeight="semibold">{`${label}:`}</Box>
+                    <Box>{displayName}</Box>
+                </HStack>
+            )}
+
             <Flex {...styles.swatchesWrapper}>
                 {React.Children.map(children, (child) => {
                     const childValue = child.props.value
 
                     return React.cloneElement(child, {
-                        selected: childValue === value,
+                        selected: Array.isArray(value)
+                            ? value.includes(childValue)
+                            : childValue === value,
                         key: childValue,
                         value,
                         variant,
@@ -50,7 +55,7 @@ SwatchGroup.propTypes = {
     /**
      * The selected Swatch value.
      */
-    value: PropTypes.string,
+    value: PropTypes.oneOf(PropTypes.string, PropTypes.array),
     /**
      * The display value of the selected option
      */
