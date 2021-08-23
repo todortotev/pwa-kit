@@ -33,9 +33,6 @@ import Swatch from '../../../components/swatch-group/swatch'
 import {useHistory} from 'react-router-dom'
 import {useSearchParams, stringify as stringifySearchParams} from '../../../hooks/use-search-params'
 
-// Others
-import rfdc from 'rfdc'
-
 // TODO: This is only temporary.
 const SUPPORTED_REFINEMENTS = ['cgid', 'c_isNew', 'c_refinementColor', 'c_size', 'price']
 
@@ -63,8 +60,6 @@ const SWATCH_VARIENT_MAP = {
     }
 }
 
-const clone = rfdc()
-
 // By default we are expanding all the refinements. Feel free to rewrite this
 // function in another way to suit your needs.
 const getExpandedRefinements = (refinements = []) => {
@@ -77,47 +72,13 @@ const getExpandedRefinements = (refinements = []) => {
     return indexes
 }
 
-// TODO: Do some serious cleanup on this function
 const buildUrl = (searchParams, attibuteId, value) => {
-    let newSearchParams = clone(searchParams)
-
-    // Add the new attribute value
-    let attributeValue = newSearchParams.refine[`${attibuteId}`]
-
-    //  We already have a selection.
-    if (value) {
-        if (Array.isArray(attributeValue)) {
-            // If it's an array determine if we are adding or removing.
-
-            if (attributeValue.includes(value)) {
-                newSearchParams.refine[`${attibuteId}`] = newSearchParams.refine[
-                    `${attibuteId}`
-                ].filter((v) => v !== value)
-            } else {
-                newSearchParams.refine[`${attibuteId}`].push(value)
-            }
-        } else {
-            // We have a value, we need to know if we are clearing it
-            // or adding to it by creating an array.
-            if (attributeValue === value) {
-                delete newSearchParams.refine[`${attibuteId}`]
-            } else {
-                newSearchParams.refine = {
-                    ...newSearchParams.refine,
-                    [`${attibuteId}`]: [attributeValue, value]
-                }
-            }
-        }
-    } else {
-        // This is a new value, simply add it to the refinements.
-        newSearchParams.refine = {
-            ...newSearchParams.refine,
-            [`${attibuteId}`]: value
-        }
-    }
-
-    return stringifySearchParams(newSearchParams, true)
+    return stringifySearchParams(searchParams, {
+        includePath: true,
+        toggleRefinement: attibuteId && value ? [attibuteId, value] : []
+    })
 }
+
 const Refinements = ({refinements = []}) => {
     const history = useHistory()
     const [searchParams] = useSearchParams()
@@ -218,6 +179,7 @@ const Refinements = ({refinements = []}) => {
                                     {/* Attributes rendered as a radio group. */}
                                     {swatchConfig.type === 'radio' && (
                                         <RadioGroup
+                                            value={buildUrl(searchParams)}
                                             onChange={(href) => {
                                                 history.replace(href)
                                             }}

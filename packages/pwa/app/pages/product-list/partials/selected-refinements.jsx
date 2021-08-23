@@ -50,30 +50,26 @@ const SelectedRefinements = ({toggleFilter, selectedFilterValues, categoryId, fi
             flexWrap="wrap"
             data-testid="sf-selected-refinements"
         >
-            {selectedFilters?.map((filter, idx) => {
-                return (
-                    <WrapItem key={idx}>
-                        <Box marginLeft={0} marginRight={1}>
-                            <Button
-                                marginTop={1}
-                                padding={5}
-                                color="black"
-                                colorScheme="gray"
-                                size="sm"
-                                iconSpacing={1}
-                                rightIcon={
-                                    <CloseIcon color="black" boxSize={4} mr="-7px" mb="-6px" />
-                                }
-                                onClick={() =>
-                                    toggleFilter({value: filter.apiLabel}, filter.value, true)
-                                }
-                            >
-                                {filter.uiLabel}
-                            </Button>
-                        </Box>
-                    </WrapItem>
-                )
-            })}
+            {selectedFilters?.map((filter, idx) => (
+                <WrapItem key={idx}>
+                    <Box marginLeft={0} marginRight={1}>
+                        <Button
+                            marginTop={1}
+                            padding={5}
+                            color="black"
+                            colorScheme="gray"
+                            size="sm"
+                            iconSpacing={1}
+                            rightIcon={<CloseIcon color="black" boxSize={4} mr="-7px" mb="-6px" />}
+                            onClick={() =>
+                                toggleFilter({value: filter.apiLabel}, filter.value, true)
+                            }
+                        >
+                            {filter.uiLabel}
+                        </Button>
+                    </Box>
+                </WrapItem>
+            ))}
 
             {selectedFilters?.length > 0 && (
                 <WrapItem>

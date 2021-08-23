@@ -6,14 +6,19 @@
  */
 
 import React from 'react'
-import {Box, Button, Wrap, WrapItem} from '@chakra-ui/react'
 import PropTypes from 'prop-types'
-import useNavigation from '../../../hooks/use-navigation'
-import {CloseIcon} from '../../../components/icons'
-
 import {FormattedMessage} from 'react-intl'
 
-import {stringify as stringifySearchParams} from '../../../hooks/use-search-params'
+// Components
+import {Box, Button, Link, Wrap, WrapItem} from '@chakra-ui/react'
+import {Link as RouteLink} from 'react-router-dom'
+
+// Hooks
+import useNavigation from '../../../hooks/use-navigation'
+import {useSearchParams, stringify as stringifySearchParams} from '../../../hooks/use-search-params'
+
+// Project Components
+import {CloseIcon} from '../../../components/icons'
 
 /**
  *
@@ -22,6 +27,7 @@ import {stringify as stringifySearchParams} from '../../../hooks/use-search-para
  */
 const SelectedRefinements = ({refinements = [], selectedRefinements = {}, categoryId}) => {
     const navigate = useNavigation()
+    const [searchParams] = useSearchParams()
     const resetFilters = () => {
         navigate(window.location.pathname)
     }
@@ -32,9 +38,11 @@ const SelectedRefinements = ({refinements = [], selectedRefinements = {}, catego
         const values = Array.isArray(value) ? value : [value]
 
         const refinment = refinements.find((refinement) => refinement.attributeId === attributeId)
-        const refinementValues = refinment.values.filter(({value}) => {
-            return values.includes(value)
-        })
+        const refinementValues = refinment.values
+            .filter(({value}) => {
+                return values.includes(value)
+            })
+            .map((refinementValue) => ({...refinementValue, attributeId}))
         return [...acc, ...refinementValues]
     }, [])
 
@@ -46,24 +54,31 @@ const SelectedRefinements = ({refinements = [], selectedRefinements = {}, catego
             flexWrap="wrap"
             data-testid="sf-selected-refinements"
         >
-            {selectedRefinementValues.map(({label, value}, idx) => {
+            {selectedRefinementValues.map(({attributeId, label, value}, idx) => {
                 return (
                     <WrapItem key={idx}>
                         <Box marginLeft={0} marginRight={1}>
-                            <Button
-                                marginTop={1}
-                                padding={5}
-                                color="black"
-                                colorScheme="gray"
-                                size="sm"
-                                iconSpacing={1}
-                                rightIcon={
-                                    <CloseIcon color="black" boxSize={4} mr="-7px" mb="-6px" />
-                                }
-                                href={``}
+                            <Link
+                                as={RouteLink}
+                                to={stringifySearchParams(searchParams, {
+                                    includePath: true,
+                                    toggleRefinement: [attributeId, value]
+                                })}
                             >
-                                {label}
-                            </Button>
+                                <Button
+                                    marginTop={1}
+                                    padding={5}
+                                    color="black"
+                                    colorScheme="gray"
+                                    size="sm"
+                                    iconSpacing={1}
+                                    rightIcon={
+                                        <CloseIcon color="black" boxSize={4} mr="-7px" mb="-6px" />
+                                    }
+                                >
+                                    {label}
+                                </Button>
+                            </Link>
                         </Box>
                     </WrapItem>
                 )

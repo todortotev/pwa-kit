@@ -8,8 +8,13 @@
 import {useLocation} from 'react-router-dom'
 import queryString from 'query-string'
 
+// Others
+import rfdc from 'rfdc'
+
 // Constants
 import {DEFAULT_SEARCH_PARAMS} from '../constants'
+
+const clone = rfdc()
 
 const PARSE_OPTIONS = {
     parseBooleans: true
@@ -35,18 +40,26 @@ export const useSearchParams = (searchParams = DEFAULT_SEARCH_PARAMS) => {
  * Encode's the provided search parameters object, paying special attention to ensure
  * that the child `refine` object is alway encoded correctly.
  *
- * @param {Object} searchParamsObj
+ * @param {Object} searchParams
+ * @param {Object} opts
+ * @param {Boolean} opts.includePath
+ * @param {Array} opts.toggleRefinement - Refinment value to add to the stringified params
  * @returns
  */
-export const stringify = (searchParamsObj, includePath = false) => {
-    let searchParamsStr
-    let searchParamsObjCopy = {...searchParamsObj}
+export const stringify = (searchParams, opts = {}) => {
+    const {includePath = false, toggleRefinement = {}} = opts
     const {pathname} = useLocation()
 
+    let searchParamsStr
+    let searchParamsCopy
+
+    // Get a copy of the current searchParams toggling the provided refinement/value tupal
+    searchParamsCopy = getModifiedSearchParams(searchParams, toggleRefinement)
+
     // "stringify" the nested refinements
-    searchParamsObjCopy.refine = Object.keys(searchParamsObjCopy.refine).map((key) =>
+    searchParamsCopy.refine = Object.keys(searchParamsCopy.refine).map((key) =>
         queryString.stringify(
-            {[key]: searchParamsObjCopy.refine[key]},
+            {[key]: searchParamsCopy.refine[key]},
             {
                 arrayFormat: 'separator',
                 arrayFormatSeparator: '|',
@@ -56,7 +69,7 @@ export const stringify = (searchParamsObj, includePath = false) => {
     )
 
     // "stringify" the entire object
-    searchParamsStr = `${includePath ? pathname : ''}?${queryString.stringify(searchParamsObjCopy)}`
+    searchParamsStr = `${includePath ? pathname : ''}?${queryString.stringify(searchParamsCopy)}`
 
     return searchParamsStr
 }
@@ -90,4 +103,49 @@ export const parse = (searchParamsStr, parseRefine = true) => {
     }
 
     return params
+}
+
+const getModifiedSearchParams = (searchParams, refinementValue) => {
+    console.log('refinementValue: ', searchParams, refinementValue)
+
+    let newSearchParams = clone(searchParams)
+
+    const [attibuteId, value] = refinementValue
+
+    // Add the new attribute value
+    let attributeValue = newSearchParams.refine[`${attibuteId}`]
+
+    //  We already have a selection.
+    if (value) {
+        if (Array.isArray(attributeValue)) {
+            // If it's an array determine if we are adding or removing.
+
+            if (attributeValue.includes(value)) {
+                newSearchParams.refine[`${attibuteId}`] = newSearchParams.refine[
+                    `${attibuteId}`
+                ].filter((v) => v !== value)
+            } else {
+                newSearchParams.refine[`${attibuteId}`].push(value)
+            }
+        } else {
+            // We have a value, we need to know if we are clearing it
+            // or adding to it by creating an array.
+            if (attributeValue === value) {
+                delete newSearchParams.refine[`${attibuteId}`]
+            } else {
+                newSearchParams.refine = {
+                    ...newSearchParams.refine,
+                    [`${attibuteId}`]: [attributeValue, value]
+                }
+            }
+        }
+    } else {
+        // This is a new value, simply add it to the refinements.
+        newSearchParams.refine = {
+            ...newSearchParams.refine,
+            [`${attibuteId}`]: value
+        }
+    }
+
+    return newSearchParams
 }
