@@ -1,27 +1,28 @@
 TEST
 DREW TEST
+VINCENT TEST 1 2 3
 
 # Mobify Platform SDKs
 
-This is a long process. for us. 
+This is a long process. for us.
 
 This is a _monorepo_ that includes the following packages that make
 up the front end of the PWA Kit for Salesforce Commerce Cloud:
 
--   `pwa-kit-create-app` - The project generator for PWA Kit
--   `pwa-kit-react-sdk` - A set of components and utilities for PWA Kit
--   `pwa` - The scaffold for PWA Kit projects
+- `pwa-kit-create-app` - The project generator for PWA Kit
+- `pwa-kit-react-sdk` - A set of components and utilities for PWA Kit
+- `pwa` - The scaffold for PWA Kit projects
 
 Old branches include retired packages, such as:
 
--   `commerce-integrations`: ecommerce backend interface for Mobify v1 and v2
--   `connector` - The scaffold for an old project's data layer
--   `devcenter`: source files for the [DevCenter](https://dev.mobify.com), which includes docs for v1 and v2
--   `documentation-hub` - Mobify's documentation hub for v1 and earlier, hosted on https://docs.mobify.com
--   `documentation-theme` - A common theme shared across docs sites for v1 and earlier
--   `generator` - Project generator for v1 and v2
--   `progressive-web-sdk` - SDK for v1 and v2 that includes Analytics Integrations, the component library, and utility functions
--   `test-framework` - Mobify's testing best practices
+- `commerce-integrations`: ecommerce backend interface for Mobify v1 and v2
+- `connector` - The scaffold for an old project's data layer
+- `devcenter`: source files for the [DevCenter](https://dev.mobify.com), which includes docs for v1 and v2
+- `documentation-hub` - Mobify's documentation hub for v1 and earlier, hosted on https://docs.mobify.com
+- `documentation-theme` - A common theme shared across docs sites for v1 and earlier
+- `generator` - Project generator for v1 and v2
+- `progressive-web-sdk` - SDK for v1 and v2 that includes Analytics Integrations, the component library, and utility functions
+- `test-framework` - Mobify's testing best practices
 
 ## Product Documentation
 
@@ -87,9 +88,9 @@ release the packages in the monorepo.
 
 Bear these branch naming conventions in mind:
 
--   We use the `develop` branch for normal feature development.
--   We use `release-` branches to review and release release-candidates.
--   We use `master` to release production-quality versions of the SDK.
+- We use the `develop` branch for normal feature development.
+- We use `release-` branches to review and release release-candidates.
+- We use `master` to release production-quality versions of the SDK.
 
 When we release, we always make a "normal" or a "hotfix" release. Hotfixes are
 something we _only_ do when we have found a bug in a released package and that we
@@ -108,8 +109,8 @@ something is wrong –ask someone for help.
 
 We use specific branches to release V1 and V2:
 
--   The **V1** release works with the `develop` and `master` branches.
--   The **V2** release works with the `v2-develop` and `v2-master` branches.
+- The **V1** release works with the `develop` and `master` branches.
+- The **V2** release works with the `v2-develop` and `v2-master` branches.
 
 It's easier to describe the release process using an example version number, so for
 this example we'll pretend that we're going to release **V1** and the version number on the branch `develop`
@@ -269,13 +270,13 @@ fixing individual or multiple vulnerabilities.
 **Install and Authenticate Snyk CLI:**
 
 1. Install Snyk CLI via npm.
-    ```bash
-    npm install -g snyk
-    ```
+   ```bash
+   npm install -g snyk
+   ```
 2. Run the `auth` command to open a browser tab.
-    ```bash
-    snyk auth
-    ```
+   ```bash
+   snyk auth
+   ```
 3. Click the Authenticate button.
 
 **Running `snyk wizard`:**
@@ -294,6 +295,3 @@ Run the `test` command from the root of the monorepo.
 ```bash
 snyk test --strict-out-of-sync=false --all-projects
 ```
-
-
-
