@@ -45,6 +45,7 @@ export const AddToCartModalProvider = ({children}) => {
         [addToCartModal.isOpen, addToCartModal.data]
     )
     return (
+        // uncomment the line below to see the difference in console
         // <AddToCartModalContext.Provider value={addToCartModal}>
         <AddToCartModalContext.Provider value={value}>
             {children}
