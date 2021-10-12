@@ -41,10 +41,11 @@ export const AddToCartModalProvider = ({children}) => {
     console.log('%c AddToCartModalProvider rendering', 'background: yellow')
     const addToCartModal = useAddToCartModal()
     const value = useMemo(
-        () => console.log('%c useMemo runs --------------', 'background: green') || addToCartModal,
+        () => addToCartModal,
         [addToCartModal.isOpen, addToCartModal.data]
     )
     return (
+        // <AddToCartModalContext.Provider value={addToCartModal}>
         <AddToCartModalContext.Provider value={value}>
             {children}
             <AddToCartModal />
@@ -55,11 +56,23 @@ AddToCartModalProvider.propTypes = {
     children: PropTypes.node.isRequired
 }
 
+let localContext = null
+
 /**
  * Visual feedback (a modal) for adding item to the cart.
  */
 export const AddToCartModal = () => {
-    const {isOpen, onClose, data} = useAddToCartModalContext()
+    console.log('%c AddToCartModal rendering', 'background: yellow')
+    const context = useAddToCartModalContext()
+    if (localContext != context) {
+        console.log('%c The context object has changed!!!!', 'background: red')
+        console.log(context)
+        console.log(localContext)
+        localContext = context
+    } else {
+        console.log('%c The context object has not changed, nice.', 'background: green')
+    }
+    const {isOpen, onClose, data} = context
     const {product, quantity} = data || {}
     const intl = useIntl()
     const basket = useBasket()
@@ -231,10 +244,12 @@ export const useAddToCartModal = () => {
 
     const {pathname} = useLocation()
     useEffect(() => {
-        setState({
-            ...state,
-            isOpen: false
-        })
+        if (state.isOpen) {
+            setState({
+                ...state,
+                isOpen: false
+            })
+        }
     }, [pathname])
 
     return {
