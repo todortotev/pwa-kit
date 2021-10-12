@@ -38,8 +38,12 @@ import {findImageGroupBy} from '../utils/image-groups-utils'
 export const AddToCartModalContext = React.createContext()
 export const useAddToCartModalContext = () => useContext(AddToCartModalContext)
 export const AddToCartModalProvider = ({children}) => {
+    console.log('%c AddToCartModalProvider rendering', 'background: yellow')
     const addToCartModal = useAddToCartModal()
-    const value = useMemo(() => addToCartModal, [addToCartModal.isOpen, addToCartModal.data])
+    const value = useMemo(
+        () => console.log('%c useMemo runs --------------', 'background: green') || addToCartModal,
+        [addToCartModal.isOpen, addToCartModal.data]
+    )
     return (
         <AddToCartModalContext.Provider value={value}>
             {children}
@@ -72,6 +76,7 @@ export const AddToCartModal = () => {
         selectedVariationAttributes: variationValues
     })?.images?.[0]
 
+    console.log('%c AddToCartModal modal rendering', 'background: grey')
     return (
         <Modal size={size} isOpen={isOpen} onClose={onClose}>
             <ModalOverlay />
