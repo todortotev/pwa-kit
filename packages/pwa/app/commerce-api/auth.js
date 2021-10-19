@@ -10,6 +10,7 @@ import {getAppOrigin} from 'pwa-kit-react-sdk/utils/url'
 import {HTTPError} from 'pwa-kit-react-sdk/ssr/universal/errors'
 import {createCodeVerifier, generateCodeChallenge} from './pkce'
 import {createGetTokenBody} from './utils'
+import jwtDecode from 'jwt-decode'
 
 /**
  * An object containing the customer's login credentials.
@@ -122,10 +123,8 @@ class Auth {
         let retries = 0
         const startLoginFlow = () => {
             let authorizationMethod = '_loginAsGuest'
-            if (credentials) {
-                authorizationMethod = '_loginWithCredentials'
-            } else if (this._authToken && this._refreshToken) {
-                authorizationMethod = '_refreshAccessToken'
+            if (this._onClient) {
+                authorizationMethod = '_loginOnBehalfOf'
             }
 
             return this[authorizationMethod](credentials).catch((error) => {
@@ -299,6 +298,33 @@ class Auth {
 
         const rawResponse = await this._api.shopperCustomers.authorizeCustomer(options, true)
         return rawResponse
+    }
+
+    // Demo prompting client for TSOB Shopper JWT.
+    async _loginOnBehalfOf() {
+        const access_token = prompt('TSOB Shopper JWT')
+        const {isb, sub} = jwtDecode(access_token)
+        // usid ~ 'cc-slas::zzrf_001::scid:5a678df0-2e74-4630-ae49-ea74f62aab4f::usid:6fc2b953-8752-4056-8251-d17c137e966e'
+        const usid = /usid:([\w-]+)/.exec(sub)[1]
+        // isb ~ 'uido:ecom::upn:jboxall@salesforce.com::uidn:jboxall::gcid:ablKxHkKg3lrkRmbAZkGYYkbs0::rcid:bckKw3xKlGkHaRkehFwWYYxudG::tsob:ts_ext_on_behalf_of'
+        const customer_id = /rcid:([\w-]+)/.exec(isb)[1]
+
+        const response = {
+            access_token,
+            refresh_token: '',
+            customer_id,
+            usid,
+            enc_user_id: ''
+        }
+
+        const customer = {
+            authType: 'registered',
+            customerId: customer_id
+        }
+
+        this._handleShopperLoginTokenResponse(response)
+        console.log({response, customer})
+        return customer
     }
 
     /**
