@@ -148,7 +148,7 @@ export const boldString = (str, substr) => {
  * @returns capitalized text
  */
 export const capitalize = (text) => {
-    return text
+    return (text || '')
         .toLowerCase()
         .split(' ')
         .map((s) => s.charAt(0).toUpperCase() + s.substring(1))

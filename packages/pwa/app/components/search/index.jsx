@@ -75,6 +75,7 @@ const Search = (props) => {
     const navigate = useNavigation()
     const searchSuggestion = useSearchSuggestions()
     const searchInputRef = useRef()
+    console.log(searchInputRef)
     const [isOpen, setIsOpen] = useState(false)
     const recentSearches = getSessionJSONItem(RECENT_SEARCH_KEY)
     const searchSuggestions = formatSuggestions(
