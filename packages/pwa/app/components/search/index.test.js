@@ -13,14 +13,6 @@ import Suggestions from './partials/suggestions'
 import {noop} from '../../utils/utils'
 import mockSearchResults from '../../commerce-api/mocks/searchResults'
 
-const sessionStorageMock = {
-    getItem: jest.fn(),
-    setItem: jest.fn(),
-    clear: jest.fn()
-}
-
-global.sessionStorage = sessionStorageMock
-
 jest.mock('../../commerce-api/utils', () => {
     const originalModule = jest.requireActual('../../commerce-api/utils')
     return {
@@ -29,16 +21,17 @@ jest.mock('../../commerce-api/utils', () => {
     }
 })
 
-jest.mock('commerce-sdk-isomorphic', () => {
-    const sdk = jest.requireActual('commerce-sdk-isomorphic')
-    return {
-        ...sdk,
-        ShopperSearch: class ShopperSearchMock extends sdk.ShopperSearch {
-            async getSearchSuggestions() {
-                return mockSearchResults
-            }
+jest.mock('../../commerce-api/hooks/useSearchSuggestions', () => {
+    let searchResults = {}
+    return () => ({
+        results: searchResults,
+        getSearchSuggestions: async () => {
+            searchResults = mockSearchResults
+        },
+        clearSuggestedSearch: async () => {
+            searchResults = {}
         }
-    }
+    })
 })
 
 beforeEach(() => {
