@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
-import React, {useEffect} from 'react'
-import {Route, MemoryRouter, Switch, useRouteMatch} from 'react-router-dom'
+import React from 'react'
+import {MemoryRouter} from 'react-router-dom'
 import {screen, waitFor, within} from '@testing-library/react'
 import user from '@testing-library/user-event'
 import {renderWithProviders} from '../../utils/test-utils'
@@ -111,58 +111,3 @@ test('Allows customer to sign out', async () => {
         expect(window.location.pathname).toEqual('/en-GB/login')
     })
 })
-
-// TODO - The tests below are testing the AcccountDetails page and should be moved into a separate profile.test.js file
-// test('Allows customer to edit profile details', async () => {
-//     server.use(
-//         rest.get('*/customers/:customerId', (req, res, ctx) =>
-//             res(
-//                 ctx.json({
-//                     ...mockedRegisteredCustomer,
-//                     firstName: 'Geordi',
-//                     phoneHome: '(567) 123-5585'
-//                 })
-//             )
-//         ),
-//         rest.patch('*/customers/:customerId', (req, res, ctx) =>
-//             res(
-//                 ctx.json({
-//                     ...mockedRegisteredCustomer,
-//                     firstName: 'Geordi',
-//                     phoneHome: '(567) 123-5585'
-//                 })
-//             )
-//         )
-//     )
-
-//     renderWithProviders(<MockedComponent />)
-//     expect(await screen.findByTestId('account-page')).toBeInTheDocument()
-//     expect(await screen.findByTestId('account-detail-page')).toBeInTheDocument()
-
-//     const el = within(screen.getByTestId('sf-toggle-card-my-profile'))
-//     user.click(el.getByText(/edit/i))
-//     user.type(el.getByLabelText(/first name/i), 'Geordi')
-//     user.type(el.getByLabelText(/Phone Number/i), '5671235585')
-//     user.click(el.getByText(/save/i))
-//     expect(await screen.findByText('Geordi Tester')).toBeInTheDocument()
-//     expect(await screen.findByText('(567) 123-5585')).toBeInTheDocument()
-// })
-
-// test('Allows customer to update password', async () => {
-//     server.use(rest.put('*/password', (req, res, ctx) => res(ctx.json())))
-
-//     renderWithProviders(<MockedComponent />)
-//     expect(await screen.findByTestId('account-page')).toBeInTheDocument()
-//     expect(await screen.findByTestId('account-detail-page')).toBeInTheDocument()
-
-//     const el = within(screen.getByTestId('sf-toggle-card-password'))
-//     user.click(el.getByText(/edit/i))
-//     user.type(el.getByLabelText(/current password/i), 'Password!12345')
-//     user.type(el.getByLabelText(/new password/i), 'Password!98765')
-//     user.click(el.getByText(/Forgot password/i))
-
-//     expect(await screen.findByTestId('account-detail-page')).toBeInTheDocument()
-
-//     user.click(el.getByText(/save/i))
-//     expect(await screen.findByText('••••••••')).toBeInTheDocument()
-// })
