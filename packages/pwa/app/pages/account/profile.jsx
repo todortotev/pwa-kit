@@ -65,7 +65,6 @@ const ProfileCard = () => {
     })
 
     useEffect(() => {
-        console.log("in use effect")
         form.reset({
             firstName: customer.firstName,
             lastName: customer.lastName,
@@ -254,7 +253,7 @@ const AccountDetail = () => {
             </Heading>
 
             <Stack spacing={4}>
-                {/* <ProfileCard /> */}
+                <ProfileCard />
                 <PasswordCard />
             </Stack>
         </Stack>

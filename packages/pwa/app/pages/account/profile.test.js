@@ -23,16 +23,21 @@ jest.mock('../../commerce-api/hooks/useCustomer', () => {
         authType: 'registered',
         customerId: 'registeredCustomerId',
         customerNo: 'testno',
-        firstName: 'Tester',
-        lastName: 'Testing',
+        lastName: 'Tester',
         email: 'test@test.com',
-        login: 'test@test.com',
-        phoneHome: '1234567890'
+        login: 'test@test.com'
     }
 
     return () => ({
         ...mockCustomer,
         isRegistered: true,
+        updateCustomer: (data) => {
+            mockCustomer.firstName = data.firstName,
+            mockCustomer.lastName = data.lastName,
+            mockCustomer.phoneHome = data.phone,
+            mockCustomer.email = data.email,
+            mockCustomer.login = data.email
+        },
         updatePassword: (data) => {
             mockCustomer.password = data.password
         }
@@ -44,19 +49,18 @@ beforeEach(() => {
     jest.resetModules()
 })
 
-// test('Allows customer to edit profile details', async () => {
-//     renderWithProviders(<AccountDetail />)
-//     expect(await screen.findByTestId('account-detail-page')).toBeInTheDocument()
-//     // expect(await screen.findByTestId('sf-toggle-card-my-profile')).toBeInTheDocument()
+test('Allows customer to edit profile details', async () => {
+    renderWithProviders(<AccountDetail />)
+    expect(await screen.findByTestId('account-detail-page')).toBeInTheDocument()
 
-//     // const el = within(screen.getByTestId('sf-toggle-card-my-profile'))
-//     // user.click(el.getByText(/edit/i))
-//     // user.type(el.getByLabelText(/first name/i), 'Geordi')
-//     // user.type(el.getByLabelText(/Phone Number/i), '5671235585')
-//     // user.click(el.getByText(/save/i))
-//     // expect(await screen.findByText('Geordi Tester')).toBeInTheDocument()
-//     // expect(await screen.findByText('(567) 123-5585')).toBeInTheDocument()
-// })
+    const el = within(screen.getByTestId('sf-toggle-card-my-profile'))
+    user.click(el.getByText(/edit/i))
+    user.type(el.getByLabelText(/first name/i), 'Geordi')
+    user.type(el.getByLabelText(/Phone Number/i), '5671235585')
+    user.click(el.getByText(/save/i))
+    expect(await screen.findByText('Geordi Tester')).toBeInTheDocument()
+    expect(await screen.findByText('(567) 123-5585')).toBeInTheDocument()
+})
 
 test('Allows customer to update password', async () => {
     renderWithProviders(<AccountDetail />)
