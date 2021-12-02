@@ -18,30 +18,29 @@ jest.mock('../../commerce-api/utils', () => {
     }
 })
 
-jest.mock('../../commerce-api/hooks/useCustomer', () => {
-    const mockCustomer = {
-        authType: 'registered',
-        customerId: 'registeredCustomerId',
-        customerNo: 'testno',
-        lastName: 'Tester',
-        email: 'test@test.com',
-        login: 'test@test.com'
-    }
+const mockCustomer = {
+    authType: 'registered',
+    customerId: 'registeredCustomerId',
+    customerNo: 'testno',
+    lastName: 'Tester',
+    email: 'test@test.com',
+    login: 'test@test.com'
+}
 
-    return () => ({
-        ...mockCustomer,
-        isRegistered: true,
-        updateCustomer: (data) => {
-            mockCustomer.firstName = data.firstName,
-            mockCustomer.lastName = data.lastName,
-            mockCustomer.phoneHome = data.phone,
-            mockCustomer.email = data.email,
-            mockCustomer.login = data.email
-        },
-        updatePassword: (data) => {
-            mockCustomer.password = data.password
-        }
-    })
+// mockUseCustomer is declared as a const to ensure the same object is returned.
+// This prevents an infinite loop with the useEffect in the ProfileCard
+const mockUseCustomer = {
+    ...mockCustomer,
+    isRegistered: true,
+    updateCustomer: function(data) {
+        this.firstName = data.firstName
+        this.phoneHome = data.phone
+    },
+    updatePassword: jest.fn()
+}
+
+jest.mock('../../commerce-api/hooks/useCustomer', () => {
+    return () => mockUseCustomer
 })
 
 // Set up and clean up
@@ -71,9 +70,7 @@ test('Allows customer to update password', async () => {
     user.type(el.getByLabelText(/current password/i), 'Password!12345')
     user.type(el.getByLabelText(/new password/i), 'Password!98765')
     user.click(el.getByText(/Forgot password/i))
-
-    expect(await screen.findByTestId('account-detail-page')).toBeInTheDocument()
-
     user.click(el.getByText(/save/i))
+
     expect(await screen.findByText('••••••••')).toBeInTheDocument()
 })
