@@ -96,7 +96,7 @@ const commonDevDeps = {
     'jest-expect-message': '1.0.0',
     'jest-fetch-mock': '^2.1.2',
     nock: '^13.1.1',
-    prettier: '1.18.2',
+    prettier: '^2.5.1',
     'regenerator-runtime': '^0.11.1',
     semver: '^7.3.2',
     shelljs: '^0.8.4'

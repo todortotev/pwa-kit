@@ -21,7 +21,7 @@
         "eslint-plugin-jsx-a11y": "6.4.1",
         "eslint-plugin-prettier": "3.0.1",
         "eslint-plugin-react": "7.24.0",
-        "prettier": "1.18.2",
+        "prettier": "^2.5.1",
         "pwa-kit-react-sdk": "^1.4.0-dev"
     },
     "scripts": {
