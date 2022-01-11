@@ -26,15 +26,8 @@ const main = () => {
     Object.keys(data).forEach((k) => {
         const metric = `mobify_platform_sdks.${metricName}_${k}`
         const value = parseFloat(data[k])
-        childProc.spawnSync('dog', [
-            'metric',
-            'post',
-            metric,
-            value
-        ])
-        console.log(
-            `dog metric post ${metric} ${value}`
-        )
+        childProc.spawnSync('dog', ['metric', 'post', metric, value])
+        console.log(`dog metric post ${metric} ${value}`)
     })
     process.exit(status)
 }

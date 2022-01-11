@@ -80,7 +80,7 @@ describe('flatten', () => {
     })
 })
 
-describe('shallow', function() {
+describe('shallow', function () {
     test('should return false', () => {
         const a = {a: '123'}
         const b = {a: '123', b: '456'}

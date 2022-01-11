@@ -17,7 +17,7 @@ jest.mock('./utils', () => {
     }
 })
 
-describe('configureRoutes', function() {
+describe('configureRoutes', function () {
     test('should only configured the routes with :locale as part of the path', () => {
         getUrlConfig.mockImplementation(() => ({
             locale: 'path'

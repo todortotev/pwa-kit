@@ -117,9 +117,7 @@ describe('SSRServer Lambda integration', () => {
             },
             route: (req, res) => {
                 // Return a binary payload
-                res.status(200)
-                    .set('Content-Type', 'image/png')
-                    .send(fakeBinaryPayload)
+                res.status(200).set('Content-Type', 'image/png').send(fakeBinaryPayload)
             }
         },
         {

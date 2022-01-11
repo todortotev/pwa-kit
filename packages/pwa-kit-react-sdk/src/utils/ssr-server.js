@@ -192,7 +192,7 @@ export const getFullRequestURL = (url) => {
  */
 
 export const outgoingRequestHook = (wrapped, getAppHost) => {
-    return function() {
+    return function () {
         // Get the app hostname. If we can't, then just pass
         // the call through to the wrapped function. We'll also
         // do that if there's no access key.

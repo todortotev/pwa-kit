@@ -292,8 +292,10 @@ const ProductView = ({
                                                             backgroundColor={name.toLowerCase()}
                                                             backgroundImage={
                                                                 image
-                                                                    ? `url(${image.disBaseLink ||
-                                                                          image.link})`
+                                                                    ? `url(${
+                                                                          image.disBaseLink ||
+                                                                          image.link
+                                                                      })`
                                                                     : ''
                                                             }
                                                         />

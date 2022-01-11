@@ -50,7 +50,7 @@ export const availablePolyfills = [
         // which is not the supoported behavior in IE by default.
         test: () => !Event || typeof Event !== 'function',
         load: (callback) => {
-            window.Event = function(event, params) {
+            window.Event = function (event, params) {
                 if (!event) throw new Error('An Event needs to be passed in')
                 params = {
                     bubbles: false,

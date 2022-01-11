@@ -23,7 +23,7 @@
     "test:max-file-size": "lerna run --stream test:max-file-size",
     "lint": "lerna run --parallel --stream lint -- --silent",
     "lint:fix": "lerna run lint:fix",
-    "format": "lerna run --parallel --stream format",
+    "format": "prettier --write .",
     "bump-version": "node ./scripts/bump-version.js"
   }
 }

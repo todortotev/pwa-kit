@@ -281,7 +281,10 @@ describe('SSRServer operation', () => {
             process.env = originalEnv
         })
 
-        const cases = [{fetch: fetch, protocol: 'http'}, {fetch: insecureFetch, protocol: 'https'}]
+        const cases = [
+            {fetch: fetch, protocol: 'http'},
+            {fetch: insecureFetch, protocol: 'https'}
+        ]
 
         cases.forEach(({fetch, protocol}) => {
             test(`SSRServer listens on ${protocol}`, () => {
@@ -567,9 +570,7 @@ describe('SSRServer operation', () => {
 
         test('should not proxy', () => {
             const app = createApp(opts())
-            return request(app)
-                .get('/mobify/proxy/base/test/path')
-                .expect(501)
+            return request(app).get('/mobify/proxy/base/test/path').expect(501)
         })
     })
 
@@ -632,7 +633,7 @@ describe('SSRServer operation', () => {
             .get(targetPath)
             .reply(
                 200,
-                function() {
+                function () {
                     requestHeaders.push(this.req.headers)
                 },
                 responseHeaders
@@ -688,9 +689,7 @@ describe('SSRServer operation', () => {
     test('SSRServer caching proxy restricts methods', () => {
         // Use nock to mock out a host to which we proxy, though we
         // do not expect the request to be made.
-        const nockResponse = nock('https://test.proxy.com')
-            .get('/test/path3')
-            .reply(200, 'OK')
+        const nockResponse = nock('https://test.proxy.com').get('/test/path3').reply(200, 'OK')
 
         const app = createApp(opts())
         const path = '/mobify/caching/base3/test/path3'
@@ -710,7 +709,7 @@ describe('SSRServer operation', () => {
         // Use nock to mock out a host to which we proxy
         const nockResponse = nock('https://test.proxy.com')
             .get('/test/path3')
-            .reply(200, function() {
+            .reply(200, function () {
                 const headers = this.req.headers
                 expect('x-mobify-access-key' in headers).toBe(false)
                 expect('cache-control' in headers).toBe(false)
@@ -751,17 +750,13 @@ describe('SSRServer operation', () => {
     test('SSRServer proxying handles error', () => {
         const app = createApp(opts())
 
-        return request(app)
-            .get('/mobify/proxy/base2/test/path')
-            .expect(500)
+        return request(app).get('/mobify/proxy/base2/test/path').expect(500)
     })
 
     test('SSRServer handles /mobify/ping', () => {
         const app = createApp(opts())
 
-        return request(app)
-            .get('/mobify/ping')
-            .expect(200)
+        return request(app).get('/mobify/ping').expect(200)
     })
 
     describe('SSRServer worker.js handling', () => {
@@ -804,9 +799,7 @@ describe('SSRServer operation', () => {
             test(`${name} (and handle 404s correctly)`, () => {
                 const app = createApp(opts({buildDir}))
 
-                return request(app)
-                    .get(requestPath)
-                    .expect(404)
+                return request(app).get(requestPath).expect(404)
             })
         })
     })
@@ -1014,9 +1007,7 @@ describe('SSRServer operation', () => {
 
         app.get('/thing', serveStaticFile('this-does-not-exist.ico'))
 
-        return request(app)
-            .get('/thing')
-            .expect(404)
+        return request(app).get('/thing').expect(404)
     })
 })
 
@@ -1303,7 +1294,10 @@ describe('SSRServer persistent caching', () => {
         })
     )
 
-    const errorCases = [{url: '/?type=500', status: 500}, {url: '/?type=400', status: 400}]
+    const errorCases = [
+        {url: '/?type=500', status: 500},
+        {url: '/?type=400', status: 400}
+    ]
 
     errorCases.forEach(({url, status}) => {
         test(`should not cache responses with ${status} status codes`, () => {
@@ -1395,7 +1389,7 @@ describe('generateCacheKey', () => {
             url: '/test?a=1',
             query: {},
             headers: {},
-            get: function(key) {
+            get: function (key) {
                 return this.headers[key]
             },
             ...overrides

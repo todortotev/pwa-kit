@@ -24,13 +24,17 @@ const fileUtils = require('./file-utils')
 
 const createHashManifest = require('./create-hash-manifest')
 
-const successCallbackAdapter = (value = true) => (...args) => {
-    args[args.length - 1](null, value)
-}
+const successCallbackAdapter =
+    (value = true) =>
+    (...args) => {
+        args[args.length - 1](null, value)
+    }
 
-const failureCallbackAdapter = (value = {}) => (...args) => {
-    args[args.length - 1](value)
-}
+const failureCallbackAdapter =
+    (value = {}) =>
+    (...args) => {
+        args[args.length - 1](value)
+    }
 
 test('createHashManifest fails if no baseDir is specified', () => {
     Utils.fail.mockClear()
