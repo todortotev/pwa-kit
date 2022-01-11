@@ -7,7 +7,9 @@
   },
   "devDependencies": {
     "commander": "^2.20.0",
+    "husky": "^7.0.4",
     "lerna": "^3.20.2",
+    "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
     "semver": "^7.3.2",
     "shelljs": "^0.8.4"
@@ -24,6 +26,10 @@
     "lint": "lerna run --parallel --stream lint -- --silent",
     "lint:fix": "lerna run lint:fix",
     "format": "prettier --write .",
-    "bump-version": "node ./scripts/bump-version.js"
+    "bump-version": "node ./scripts/bump-version.js",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,json,jsx,yml,yaml,md}": "prettier --write"
   }
 }
