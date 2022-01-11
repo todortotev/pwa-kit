@@ -7,7 +7,7 @@
   },
   "devDependencies": {
     "commander": "^2.20.0",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
     "lerna": "^3.20.2",
     "lint-staged": "^12.1.7",
     "prettier": "^2.5.1",
@@ -20,16 +20,11 @@
     "lerna": "lerna",
     "pretest": "npm run lint",
     "test": "lerna run --stream --concurrency=1 test",
-    "test:integration": "lerna run --stream --concurrency=1 test:integration",
-    "test:e2e-ci": "lerna run --stream --concurrency=1 test:e2e-ci",
     "test:max-file-size": "lerna run --stream test:max-file-size",
     "lint": "lerna run --parallel --stream lint -- --silent",
     "lint:fix": "lerna run lint:fix",
     "format": "prettier --write .",
     "bump-version": "node ./scripts/bump-version.js",
     "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{js,json,jsx,yml,yaml,md}": "prettier --write"
   }
 }
