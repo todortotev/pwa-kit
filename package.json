@@ -26,5 +26,8 @@
     "format": "prettier --write .",
     "bump-version": "node ./scripts/bump-version.js",
     "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,jsx,json,yml,yaml,md}": "prettier --write"
   }
 }
