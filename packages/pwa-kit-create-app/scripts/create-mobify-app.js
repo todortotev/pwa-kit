@@ -51,9 +51,10 @@ const GENERATED_PROJECT_VERSION = '0.0.1'
 const HELLO_WORLD_TEST_PROJECT = 'hello-world-test-project'
 const HELLO_WORLD = 'hello-world'
 const TEST_PROJECT = 'test-project' // TODO: This will be replaced with the `isomorphic-client` config.
+const DEMO_PROJECT = 'demo-project'
 const PROMPT = 'prompt'
 
-const PRESETS = [TEST_PROJECT, PROMPT, HELLO_WORLD, HELLO_WORLD_TEST_PROJECT]
+const PRESETS = [TEST_PROJECT, PROMPT, HELLO_WORLD, HELLO_WORLD_TEST_PROJECT, DEMO_PROJECT]
 
 const GENERATOR_PRESET = process.env.GENERATOR_PRESET || PROMPT
 
@@ -309,6 +310,19 @@ const testProjectAnswers = () => {
     return buildAnswers(config)
 }
 
+const demoProjectAnswers = () => {
+    const config = {
+        projectId: 'retail-react-app-demo',
+        instanceUrl: 'https://zzte-053.sandbox.us02.dx.commercecloud.salesforce.com',
+        clientId: '1d763261-6522-4913-9d52-5d947d3b94c4',
+        siteId: 'RefArch',
+        organizationId: 'f_ecom_zzte_053',
+        shortCode: 'kv7kzm78'
+    }
+
+    return buildAnswers(config)
+}
+
 const helloWorldPrompts = () => {
     const validProjectId = (s) =>
         /^[a-z0-9-]{1,20}$/.test(s) ||
@@ -365,6 +379,8 @@ const main = (opts) => {
             return helloWorldPrompts(opts).then((answers) => generateHelloWorld(answers, opts))
         case TEST_PROJECT:
             return runGenerator(testProjectAnswers(), opts)
+        case DEMO_PROJECT:
+            return runGenerator(demoProjectAnswers(), opts)
         case PROMPT:
             console.log(
                 'See https://developer.salesforce.com/docs/commerce/commerce-api/guide/commerce-api-configuration-values.html for details on configuration values\n'
