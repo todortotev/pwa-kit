@@ -315,12 +315,24 @@ const demoProjectAnswers = () => {
         projectId: 'retail-react-app-demo',
         instanceUrl: 'https://zzte-053.sandbox.us02.dx.commercecloud.salesforce.com',
         clientId: '1d763261-6522-4913-9d52-5d947d3b94c4',
-        siteId: 'RefArch',
+        siteId: 'RefArchGlobal',
         organizationId: 'f_ecom_zzte_053',
         shortCode: 'kv7kzm78'
     }
 
     return buildAnswers(config)
+}
+
+const selectProjectPrompt = () => {
+    const questions = [
+        {
+            name: 'isDemoSandbox',
+            message: "Do you want to try out the app with the demo storefront?",
+            type: 'list',
+            choices: ['Yes','No']
+        }
+    ]
+    return inquirer.prompt(questions)
 }
 
 const helloWorldPrompts = () => {
@@ -382,10 +394,17 @@ const main = (opts) => {
         case DEMO_PROJECT:
             return runGenerator(demoProjectAnswers(), opts)
         case PROMPT:
-            console.log(
-                'See https://developer.salesforce.com/docs/commerce/commerce-api/guide/commerce-api-configuration-values.html for details on configuration values\n'
-            )
-            return prompts(opts).then((answers) => runGenerator(answers, opts))
+            return selectProjectPrompt().then((answers) => {
+                console.log('Answer: ' + answers.isDemoSandbox)
+                if (answers.isDemoSandbox === 'Yes') {
+                    return runGenerator(demoProjectAnswers(), opts)
+                } else {
+                    console.log(
+                        'See https://developer.salesforce.com/docs/commerce/commerce-api/guide/commerce-api-configuration-values.html for details on configuration values\n'
+                    )
+                    return prompts(opts).then((answers) => runGenerator(answers, opts))
+                }
+            })
         default:
             console.error(
                 `The preset "${GENERATOR_PRESET}" is not valid. Valid presets are: ${PRESETS.map(
